@@ -22,7 +22,9 @@
 ;; Challenge 2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn fixed-xor [s1 s2]
+(defn fixed-xor
+  "Takes two equal-length hex strings and produces their XOR combination as an hex string"
+  [s1 s2]
   (let [bytes1 (read-bytes s1)
         bytes2 (read-bytes s2)]
     (->> (map bit-xor bytes1 bytes2)
