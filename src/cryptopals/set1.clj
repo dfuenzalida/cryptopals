@@ -53,3 +53,20 @@
          (map (comp char (partial bit-xor mask)))
          (apply str))))
 
+
+;; Challenge 4
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn read-input4 []
+  (->> (slurp "resources/set1-ch4.txt")
+       (clojure.string/split-lines)))
+
+(defn detect-single-xor []
+  (let [messages (into [] (read-input4))
+        scores   (for [i (range (count messages))
+                       n (range 1 256)]
+                   [[i n] (score (messages i) n)])
+        [i n]    (first (apply max-key second scores))]
+    (->> (read-bytes (messages i))
+         (map (comp char (partial bit-xor n)))
+         (apply str))))

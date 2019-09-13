@@ -20,4 +20,11 @@
           (.encode (java.util.Base64/getEncoder))
           (map char)
           (apply str)))))
+
+  (testing "Challenge 4"
+    (is (= "4e6f77207468617420746865207061727479206973206a756d70696e670a"
+           (->> (detect-single-xor)
+                (map (comp (partial format "%02x") int))
+                (apply str)))))
+
   )
