@@ -30,3 +30,26 @@
     (->> (map bit-xor bytes1 bytes2)
          (map #(format "%02x" %))
          (apply str))))
+
+;; Challenge 3
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def hidden "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
+
+(defn score
+  [message mask]
+  (let [freq-phrase (apply str (reverse "ETAOIN SHRDLU"))
+        upper-freqs (map vector freq-phrase (rest (range)))
+        lower-freqs (map vector (.toLowerCase freq-phrase) (rest (range)))
+        score-map   (into {} (concat upper-freqs lower-freqs))]
+    (->> (read-bytes message)
+         (map (comp score-map char (partial bit-xor mask)))
+         (remove nil?)
+         (reduce +))))
+
+(defn decrypt-single-xor []
+  (let [mask (apply max-key (partial score hidden) (range 256))]
+    (->> (read-bytes hidden)
+         (map (comp char (partial bit-xor mask)))
+         (apply str))))
+

@@ -13,4 +13,11 @@
                       "686974207468652062756c6c277320657965")
            "746865206b696420646f6e277420706c6179")))
 
+  (testing "Challenge 3"
+    (is (= "Q29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==" ;; Base64 to hide it
+     (->> (decrypt-single-xor)
+          .getBytes
+          (.encode (java.util.Base64/getEncoder))
+          (map char)
+          (apply str)))))
   )
