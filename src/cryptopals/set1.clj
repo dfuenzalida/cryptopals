@@ -70,3 +70,26 @@
     (->> (read-bytes (messages i))
          (map (comp char (partial bit-xor n)))
          (apply str))))
+
+;; Challenge 5
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn repeating-key-xor [xor-key text]
+  (let [key-seq    (cycle (map int xor-key))
+        text-bytes (map int text)]
+    (->> (map bit-xor key-seq text-bytes)
+         (map (partial format "%02x"))
+         (reduce str))))
+
+;; Challenge 6
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn hamming-distance [text1 text2]
+  (let [bytes1 (map int text1)
+        bytes2 (map int text2)
+        xors   (map bit-xor bytes1 bytes2)
+        bits1  (fn [acc n]
+                 (if (zero? n) acc (recur (+ acc (rem n 2)) (quot n 2))))]
+    (->> (map (partial bits1 0) xors)
+         (reduce +))))
+
