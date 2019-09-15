@@ -143,3 +143,19 @@
          (map char)
          (reduce str))))
 
+;; Challenge 7
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn read-input7 []
+  (let [decoder (java.util.Base64/getDecoder)]
+    (->> (slurp "resources/set1-ch7.txt")
+         (clojure.string/split-lines)
+         (clojure.string/join)
+         (.decode decoder))))
+
+(defn aes-decrypt [bytes password]
+  (let [keyspec (javax.crypto.spec.SecretKeySpec. (.getBytes password) "AES")
+        cypher  (javax.crypto.Cipher/getInstance "AES/ECB/NoPadding")]
+    (.init cypher javax.crypto.Cipher/DECRYPT_MODE keyspec)
+    (String. (.doFinal cypher bytes))))
+

@@ -45,5 +45,9 @@
     (is (= "6187f6e338437e32f9cfc89ff6ee3b4d"
            (->> (break-repeating-key-xor) .getBytes md5))))
 
+  (testing "Challenge 7"
+    (is (= "7ed9aff6663aeb63a2cdfbffc9023a56"
+           (->> (aes-decrypt (read-input7) "YELLOW SUBMARINE") .getBytes md5))))
+
   ;; end tests
   )
