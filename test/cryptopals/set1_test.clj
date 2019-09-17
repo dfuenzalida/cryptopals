@@ -38,16 +38,26 @@
            (hamming-distance "this is a test" "wokka wokka!!!")))
 
     ;; Decypher the key:
-    (is (= "011327c9d6d57189d01c768cd3d6f4a3"
-           (->> (find-repeating-key-xor) byte-array md5)))
+    (let [key-xor (byte-array (find-repeating-key-xor))]
+      (is (-> key-xor String. (.endsWith "noise")))
+      (is (= (md5 key-xor) "011327c9d6d57189d01c768cd3d6f4a3")))
 
     ;; Decypher the message:
-    (is (= "6187f6e338437e32f9cfc89ff6ee3b4d"
-           (->> (break-repeating-key-xor) .getBytes md5))))
+    (let [message (break-repeating-key-xor)]
+      (is (.startsWith message "I'm back and I'm ringin' the bell"))
+      (is (= "6187f6e338437e32f9cfc89ff6ee3b4d"
+             (->> message .getBytes md5)))))
 
   (testing "Challenge 7"
+    (is (.startsWith (aes-decrypt (read-input7) "YELLOW SUBMARINE")
+                     "I'm back and I'm ringin' the bell"))
     (is (= "7ed9aff6663aeb63a2cdfbffc9023a56"
            (->> (aes-decrypt (read-input7) "YELLOW SUBMARINE") .getBytes md5))))
+
+  (testing "Challenge 8"
+    (let [detected (->> (read-input8) (filter detect-aes-ecb) first)]
+      (is (.startsWith detected "d880619740a8a19b"))
+      (is (= "b1fff3b8350d0682fcf09b5c9b22f768" (->> detected .getBytes md5)))))
 
   ;; end tests
   )

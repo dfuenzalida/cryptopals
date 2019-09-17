@@ -159,3 +159,20 @@
     (.init cypher javax.crypto.Cipher/DECRYPT_MODE keyspec)
     (String. (.doFinal cypher bytes))))
 
+;; Challenge 8
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn read-input8 []
+  (->> (slurp "resources/set1-ch8.txt")
+       (clojure.string/split-lines)))
+
+(defn detect-aes-ecb
+  "Given a hex string, returns truthy if it finds a 16-byte pattern twice or more"
+  [line]
+  (->> line
+       (partition 32 2) ;; partition into 16 bytes, with a 1 byte offset each
+       (map (partial apply str))
+       frequencies
+       (remove (fn [[_ cnt]] (= 1 cnt)))
+       first))
+
