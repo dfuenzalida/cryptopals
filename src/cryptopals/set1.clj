@@ -60,7 +60,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn read-input4 []
-  (->> (slurp "resources/set1-ch4.txt")
+  (->> (slurp "resources/4.txt")
        (clojure.string/split-lines)))
 
 (defn detect-single-xor []
@@ -100,7 +100,7 @@
 
 (defn read-input6 []
   (let [decoder (java.util.Base64/getDecoder)]
-    (->> (slurp "resources/set1-ch6.txt")
+    (->> (slurp "resources/6.txt")
          (clojure.string/split-lines)
          (clojure.string/join)
          (.decode decoder)
@@ -148,7 +148,7 @@
 
 (defn read-input7 []
   (let [decoder (java.util.Base64/getDecoder)]
-    (->> (slurp "resources/set1-ch7.txt")
+    (->> (slurp "resources/7.txt")
          (clojure.string/split-lines)
          (clojure.string/join)
          (.decode decoder))))
@@ -163,7 +163,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn read-input8 []
-  (->> (slurp "resources/set1-ch8.txt")
+  (->> (slurp "resources/8.txt")
        (clojure.string/split-lines)))
 
 (defn detect-aes-ecb
